@@ -5,9 +5,21 @@
 .chatMenu {
     flex: 3.5;
 }
+.chatMenuInput {
+    width: 90px;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid gray;
+}
 .chatBox {
     flex: 5.5;
 }
 .chatOnline {
     flex: 3;
+}
+.chatMenuWrapper,
+.chatBoxWrapper,
+.chatOnlineWrapper {
+    padding: 10px;
+    height: 100%;
 }
