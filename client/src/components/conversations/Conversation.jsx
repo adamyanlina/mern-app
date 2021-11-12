@@ -1,14 +1,33 @@
 import './conversation.css';
+import {useEffect, useState} from "react";
+import axios from "axios";
 
-export default function Conversation () {
+export default function Conversation ({conversation, currentUser}) {
+    const [user, setUser] = useState(null);
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+    useEffect(() => {
+        const friendId = conversation.members.find(mId => mId !== currentUser._id);
+
+        const getUser = async () => {
+            try {
+                const res = await axios.get(`/users?userId=${friendId}`);
+                setUser(res.data);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+        getUser();
+    }, [currentUser, conversation]);
+
     return (
         <div className="conversation">
             <img
                 className="conversationImg"
-                src="https://archziner.com/wp-content/uploads/2020/07/air-jordan-hoodie-worn-by-man-wearing-purge-mask-with-neon-lights-super-cool-wallpapers-holding-pink-smoke-bomb.jpg"
-                alt=""
+                src={user?.profilePicture ? user.profilePicture : `${PF}person/noAvatar.png`}
+                alt={`${user?.username} avatar`}
             />
-            <span className="conversationName">Lina Adamian</span>
+            <span className="conversationName">{ user?.username }</span>
         </div>
     );
 }
